@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
 
+var previously_clicked = {}
 
 var Article = React.createClass({
   render: function() {
@@ -23,8 +24,25 @@ var ArticleBox = React.createClass({
       }.bind(this)
     });
   },
-  onClick: function() {
-  	console.log("clicked")
+  onClick: function(event) {
+  	
+  	target = event.target
+  	if (target.tagName != "DIV") {
+  		target = target.parentNode  		
+  	}
+  
+  	if (previously_clicked[target.getAttribute("data-reactid")]) {
+  		console.log("Has been clicked before")
+	  	target.style.backgroundColor = "white"  
+	  	target.style.borderColor = "#ccc"
+	  	delete previously_clicked[target.getAttribute("data-reactid")]
+  	}
+  	else {
+		var lst_to_use = [target.getElementsByClassName("articleAuthor")[0].innerText, target.getElementsByClassName("articleTitle")[0].innerText]
+		previously_clicked[target.getAttribute("data-reactid")] = lst_to_use	
+		target.style.backgroundColor="#eee"  
+	  	target.style.borderColor = "black"
+  	}
   },
 
   getInitialState: function() {

@@ -6,7 +6,6 @@ body {
   padding: 30px;
 }
 
-
 h1, h2, h3, h4 {
   font-weight: bold;
   margin: 0 0 15px;
@@ -35,8 +34,6 @@ h3 {
 h4 {
   font-size: 12px;
 }
-
-
 
 div.article {
 	border:1px solid #ccc;
