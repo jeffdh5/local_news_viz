@@ -1,9 +1,9 @@
 local_news_viz
 ==============
-
 Quick-start guide:
 
 npm install express
+
 node server.js
 
 Notes
