@@ -12,4 +12,4 @@ app.get('/articles.json', function(req, res) {
   res.send(JSON.stringify(comments));
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
