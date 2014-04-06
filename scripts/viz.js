@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var previously_clicked = {}
+min_relevance = 0
 
 var Article = React.createClass({
 	getInitialState: function() {
@@ -12,9 +12,21 @@ var Article = React.createClass({
 		if (this.state.prev_clicked == false) {
 			this.setState({prev_clicked:true})
 			this.setState({prev_clicked:true})
-			delete the_data[this.props.key]
+			//delete database[this.props.key]
 			console.log("Deleted article at index " + this.props.key)
 			
+			var db = Parse.Object.extend("articles")
+			//var query = new Parse.Query(db)
+			//query.equalTo("title", this.props.title)
+			//console.log(query)
+			//query.first({
+  			//	success: function(object) {
+    		//	// Successfully retrieved the object.
+    		//	console.log(object)
+  			//},
+  			//error: function(error) {
+    		//	alert("Error: " + error.code + " " + error.message);
+  			//}
 		} else {
 			this.setState({prev_clicked:false})
 		}
@@ -36,20 +48,19 @@ var Article = React.createClass({
 			var className="article"
 		} else {
 			var className="article-clicked"
-		}		
+		}	
 		
-		if (this.props.relevance > 0) {
+		if (this.props.relevance >= min_relevance) {
 			return (
 				<div className="article-container">
 					<div className={className} onClick={this.selectArticle}>
-						<h2 className="articleTitle">{this.props.title.substring(0,80)}</h2>
+						<h2 className="articleTitle">{this.props.title}</h2>
 						<h4 className="articleAuthor">{this.props.author}</h4>
 						<p dangerouslySetInnerHTML={{__html: rawMarkup}} />
 					</div>
 					<div className="article-bottom">
 						<label>Relevance: {this.props.relevance}</label>
 						<i className="icon-large icon-trash" onClick={this.deleteArticle}></i>
-	
 					</div>
 				</div>
 			);
@@ -65,19 +76,25 @@ var Article = React.createClass({
 
 var ArticleBox = React.createClass({
 	loadArticlesFromServer: function() {
-		target = this
-		var http_request = new XMLHttpRequest();
-		http_request.open("GET", this.props.url, true);
-		http_request.onreadystatechange = function() {
-			var done=4;
-			var ok = 200;
-			if (http_request.readyState === done && http_request.status === ok){
-				the_data = JSON.parse(http_request.responseText)
-				target.setState({data: JSON.parse(http_request.responseText)});
-				//console.log(target.state.data)
-			}
-		};
-		http_request.send();
+		//target = this
+		//var http_request = new XMLHttpRequest();
+		//http_request.open("GET", this.props.url, true);
+		//http_request.onreadystatechange = function() {
+		//	var done=4;
+		//	var ok = 200;
+		//	if (http_request.readyState === done && http_request.status === ok){
+		//		database = JSON.parse(http_request.responseText)
+		//		target.setState({data: JSON.parse(http_request.responseText)});
+		//		//console.log(target.state.data)
+		//		console.log(JSON.parse(http_request.responseText))
+		//	}
+		//};
+		//http_request.send();
+		this.setState({data: json_list})
+	},
+	
+	recompute: function() {
+		min_relevance = parseInt(document.getElementById("min_relevance").value)
 	},
 	
 	getInitialState: function() {
@@ -92,7 +109,17 @@ var ArticleBox = React.createClass({
 	render: function() {
 		return (
 			<div className="articleBox">
-				<h1>Articles</h1>
+				<h1>Local News Database</h1>
+				<div className="spec">
+					<div className="spec-left">
+						<h3>Database: Marin Independent Journal, Lexis Nexis</h3>
+						<h4>Query Term: San Francisco</h4>
+					</div>
+					<div className="spec-right">
+						<label>Minimum Relevance: </label><input type="text" id="min_relevance"></input>
+						<button className="recompute" onClick={this.recompute}>Recompute</button>
+					</div>
+				</div>
 				<ArticleList data={this.state.data} />
       		</div>
     	);

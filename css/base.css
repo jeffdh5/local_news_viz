@@ -1,3 +1,4 @@
+
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;;
   font-size: 12px;
@@ -6,18 +7,21 @@ body {
   padding: 30px;
 }
 
+
 h1, h2, h3, h4 {
   font-weight: bold;
   margin: 0 0 15px;
   padding: 0;
 }
 
+
 h1 {
   border-bottom: 1px solid #ddd;
   font-size: 30px;
   font-weight: bold;
   margin: 0 0 15px;
-  padding: 0;
+  padding-left:40px;
+
 }
 
 h2 {
@@ -33,6 +37,45 @@ h3 {
 
 h4 {
   font-size: 12px;
+}
+
+div.spec {
+	width:1140px;
+	height:150px;
+	margin-top:30px;
+
+}
+
+div.spec-left {
+	margin-left:40px;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-left:20px;
+	border:1px solid #ccc;
+	width:600px;
+	float:left;
+	min-height:85px;
+}
+
+div.spec-right {
+	margin-left:10px;
+	padding-top:10px;
+	padding-bottom:20px;
+	padding-left:20px;
+	padding-right:20px;
+	border:1px solid #ccc;
+	width:400px;	
+	float:right;
+	min-height:75px;
+}
+
+
+div.article-container {
+	width:300px;
+	height:320px;
+	float:left;
+	padding:20px;
+	margin:20px;
 }
 
 div.article {
@@ -66,18 +109,38 @@ div.article-bottom {
 
 }
 
-div.article-container {
-	width:300px;
-	height:320px;
-	float:left;
-	padding:20px;
-	margin:20px;
-}
 
 .icon-trash {
 	float:right;
 }
 
-.label {
+label {
+	font-size:14px;
+}
 
+input[type="text"] {
+	margin-left:10px;
+	width:100px;
+	border:1px solid #ccc;
+	padding:5px;
+	outline:0px;
+	font-size:12px;
+}
+
+button.recompute {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size:12px;
+	background-color:white;
+	border:1px solid #ccc;
+	padding-left:10px;
+	padding-right:10px;
+	padding-top:6px;
+	padding-bottom:6px;
+	margin-left:20px;
+	outline:0px;
+
+}
+
+button.recompute:hover {
+	background-color:#eee;
 }

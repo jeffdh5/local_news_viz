@@ -6,11 +6,33 @@
     <link rel="stylesheet" href="css/base.css" />
     <script src="http://fb.me/react-0.8.0.js"></script>
     <script src="http://fb.me/JSXTransformer-0.8.0.js"></script>
+	<script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.18.min.js"></script>
 	<link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
   </head>
   <body>
     <div id="container">
     </div>
+  	<script type="text/javascript">
+		Parse.initialize("Uzki9qm4y0TtV5tON7nS3JMy0MVlVpCwWk8zmM3f", "1bgrisbSR7e4zfhIbGz5KwqyjERGLf8hkiOrcOr8");    
+    	var articles = Parse.Object.extend("articles");
+    	var queryObject = new Parse.Query(articles);
+    	
+    	json_list = []
+    	
+    	queryObject.find({
+    		success: function (results) {
+       			for (var i = 0; i < results.length; i++) {
+           		// Iteratoration for class object.
+           		//console.log(results[i].attributes)
+           		json_list.push(results[i].attributes)
+        	}
+    	},
+    	
+    	
+    	
+    });
+  </script>
+
     <script type="text/jsx" src="scripts/viz.js"></script>
   </body>
 </html>
