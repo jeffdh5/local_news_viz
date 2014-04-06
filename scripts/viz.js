@@ -7,30 +7,61 @@ var Article = React.createClass({
 		return {prev_clicked:false};
 	},
 
-	onClick: function() {
+	deleteArticle: function() {
+
 		if (this.state.prev_clicked == false) {
 			this.setState({prev_clicked:true})
+			this.setState({prev_clicked:true})
+			delete the_data[this.props.key]
+			console.log("Deleted article at index " + this.props.key)
+			
+		} else {
+			this.setState({prev_clicked:false})
+		}
+	},
+	
+	selectArticle: function() {
+
+		if (this.state.prev_clicked == false) {
+			this.setState({prev_clicked:true})
+			this.setState({prev_clicked:true})			
 		} else {
 			this.setState({prev_clicked:false})
 		}
 	},
 	
 	render: function() {
-		var rawMarkup = (this.props.children).substring(0, 300) + "...";
+		var rawMarkup = (this.props.children);
 		if (this.state.prev_clicked == false) {
 			var className="article"
 		} else {
 			var className="article-clicked"
 		}		
-		return (
-			<div className={className} onClick={this.onClick}>
-				<h2 className="articleTitle">{this.props.title.substring(0,100)}</h2>
-				<h4 className="articleAuthor">{this.props.author}</h4>
-				<p dangerouslySetInnerHTML={{__html: rawMarkup}} />
+		
+		if (this.props.relevance > 0) {
+			return (
+				<div className="article-container">
+					<div className={className} onClick={this.selectArticle}>
+						<h2 className="articleTitle">{this.props.title.substring(0,80)}</h2>
+						<h4 className="articleAuthor">{this.props.author}</h4>
+						<p dangerouslySetInnerHTML={{__html: rawMarkup}} />
+					</div>
+					<div className="article-bottom">
+						<label>Relevance: {this.props.relevance}</label>
+						<i className="icon-large icon-trash" onClick={this.deleteArticle}></i>
+	
+					</div>
+				</div>
+			);
+		} else {
+			return (
+			<div>
 			</div>
-		);
+			);
+		}
 	}
 });
+
 
 var ArticleBox = React.createClass({
 	loadArticlesFromServer: function() {
@@ -41,7 +72,9 @@ var ArticleBox = React.createClass({
 			var done=4;
 			var ok = 200;
 			if (http_request.readyState === done && http_request.status === ok){
+				the_data = JSON.parse(http_request.responseText)
 				target.setState({data: JSON.parse(http_request.responseText)});
+				//console.log(target.state.data)
 			}
 		};
 		http_request.send();
@@ -61,7 +94,7 @@ var ArticleBox = React.createClass({
 			<div className="articleBox">
 				<h1>Articles</h1>
 				<ArticleList data={this.state.data} />
-      	</div>
+      		</div>
     	);
   	}
 });
@@ -69,7 +102,7 @@ var ArticleBox = React.createClass({
 var ArticleList = React.createClass({
 	render: function() {
 		var articleNodes = this.props.data.map(function (article, index) {
-			return <Article key={index} author={article.author} title={article.title}>{article.text}</Article>;
+			return <Article key={index} author={article.author} title={article.title} relevance={article.relevance}>{article.text}</Article>;
 		});
 		return <div className="articleList">{articleNodes}</div>;
   	}
