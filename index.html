@@ -15,22 +15,27 @@
 
     </div>
   	<script type="text/javascript">
-		Parse.initialize("Uzki9qm4y0TtV5tON7nS3JMy0MVlVpCwWk8zmM3f", "1bgrisbSR7e4zfhIbGz5KwqyjERGLf8hkiOrcOr8");    
-    	var articles = Parse.Object.extend("articles");
-    	var queryObject = new Parse.Query(articles);
-    	queryObject._limit = 10000
-    	json_list = []
-    	
-    	queryObject.find({
-    		success: function (results) {
-       			for (var i = 0; i < results.length; i++) {
-           			// Iteratoration for class object.
-           			//console.log(results[i].attributes)
-           			json_list.push(results[i].attributes)
-        		}
-    		},
-   	 	});
-  </script>
+		json_list = []
+		url = "https://api.parse.com/1/classes/articles"
+
+		var xhr = new XMLHttpRequest();
+
+		function reqListener () {
+		  var x = JSON.parse(this.responseText);
+		  for (var c=0; c<x["results"].length; c++) {
+		  	json_list.push(x["results"][c])
+		  }
+		}
+
+		xhr.onload = reqListener;
+		xhr.open("GET", url, true);
+		xhr.setRequestHeader("X-Parse-Application-Id", "Uzki9qm4y0TtV5tON7nS3JMy0MVlVpCwWk8zmM3f");
+		xhr.setRequestHeader("X-Parse-REST-API-Key", "unKRN6nyC3V4ynbmLq3lc3qwu81qSSVHOZ770ced");
+		xhr.setRequestHeader("Content-Type", "application/json");
+		
+		xhr.send();
+
+    </script>
 
     <script type="text/jsx" src="scripts/viz.js"></script>
   </body>
