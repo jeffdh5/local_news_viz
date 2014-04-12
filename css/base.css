@@ -33,6 +33,7 @@ h2 {
 
 h3 {
   font-size: 20px;
+  line-height:25px;
 }
 
 h4 {
@@ -110,12 +111,17 @@ div.article-bottom {
 }
 
 
-.icon-trash {
+.icon-trash, .icon-ok-sign {
 	float:right;
 }
 
+.icon-ok-sign {
+	margin-right:22.5px;
+	margin-top:3px;
+}
 label {
 	font-size:14px;
+	
 }
 
 input[type="text"] {
@@ -143,4 +149,22 @@ button.recompute {
 
 button.recompute:hover {
 	background-color:#eee;
+}
+
+#loading {
+	width:1060px;
+	margin-left:40px;
+	border:1px solid #ccc;
+	padding-left:20px;
+	padding-right:20px;
+	padding-top:10px;
+}
+
+.hide {
+	display:none
+}
+
+#cover {
+    background: url("/img/indicator.gif") no-repeat scroll center center #FFF;
+    height: 250px;
 }

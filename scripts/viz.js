@@ -4,7 +4,24 @@ min_relevance = 0
 
 var Article = React.createClass({
 	getInitialState: function() {
-		return {prev_clicked:false};
+		return {prev_clicked:false, relevance:this.props.relevance, modified:false};
+	},
+
+	componentWillMount: function() {
+		console.log("willmount")
+
+	},
+	
+	handleChange: function(event) {
+		if (!isNaN(event.target.value)) {
+			this.setState({relevance: event.target.value});
+			this.state.modified = true
+		}
+  	},
+
+	componentDidMount: function() {
+		document.getElementById("cover").className = "hide"
+
 	},
 
 	deleteArticle: function() {
@@ -20,7 +37,7 @@ var Article = React.createClass({
 			//query.equalTo("title", this.props.title)
 			//console.log(query)
 			//query.first({
-  			//	success: function(object) {
+  			//	]success: function(object) {
     		//	// Successfully retrieved the object.
     		//	console.log(object)
   			//},
@@ -42,15 +59,20 @@ var Article = React.createClass({
 		}
 	},
 	
-	render: function() {
+	render: function() {		
+		if (this.state.modified == true) {
+			console.log("modified")
+		}
 		var rawMarkup = (this.props.children);
 		if (this.state.prev_clicked == false) {
 			var className="article"
 		} else {
 			var className="article-clicked"
 		}	
-		
-		if (this.props.relevance >= min_relevance) {
+
+		var relevance = this.state.relevance;
+
+		if (this.props.relevance >= this.props.min_relevance) {
 			return (
 				<div className="article-container">
 					<div className={className} onClick={this.selectArticle}>
@@ -59,8 +81,9 @@ var Article = React.createClass({
 						<p dangerouslySetInnerHTML={{__html: rawMarkup}} />
 					</div>
 					<div className="article-bottom">
-						<label>Relevance: {this.props.relevance}</label>
+						<label>Relevance: <input type="text" value={relevance} onChange={this.handleChange} /></label>
 						<i className="icon-large icon-trash" onClick={this.deleteArticle}></i>
+						<i className="icon-large icon-ok-sign" onClick={this.deleteArticle}></i>
 					</div>
 				</div>
 			);
@@ -90,11 +113,14 @@ var ArticleBox = React.createClass({
 		//	}
 		//};
 		//http_request.send();
-		this.setState({data: json_list})
+		console.log(this)
+		this.setState({data: json_list, recompute:false})
 	},
 	
 	recompute: function() {
-		min_relevance = parseInt(document.getElementById("min_relevance").value)
+		//console.log(this.props.min_relevance)	
+		nextprops = {min_relevance: parseInt(document.getElementById("min_relevance").value)}
+		this.setProps(nextprops)
 	},
 	
 	getInitialState: function() {
@@ -103,10 +129,21 @@ var ArticleBox = React.createClass({
 	
 	componentWillMount: function() {
 		this.loadArticlesFromServer();
+		//console.log("willmount")
 		setInterval(this.loadArticlesFromServer, this.props.pollInterval);
+		//document.getElementById("loading").innerHTML = "Loading"
+
 	},
-	
+
+	componentDidMount: function() {
+		this.loadArticlesFromServer();
+		//console.log("didmount")
+
+
+	},
+		
 	render: function() {
+		//console.log(this.props)
 		return (
 			<div className="articleBox">
 				<h1>Local News Database</h1>
@@ -116,11 +153,14 @@ var ArticleBox = React.createClass({
 						<h4>Query Term: San Francisco</h4>
 					</div>
 					<div className="spec-right">
+						<h3>Search By Relevance</h3>
 						<label>Minimum Relevance: </label><input type="text" id="min_relevance"></input>
 						<button className="recompute" onClick={this.recompute}>Recompute</button>
 					</div>
 				</div>
-				<ArticleList data={this.state.data} />
+				<LoadingIndicator />
+
+				<ArticleList data={this.state.data} min_relevance={this.props.min_relevance} />
       		</div>
     	);
   	}
@@ -128,15 +168,21 @@ var ArticleBox = React.createClass({
 
 var ArticleList = React.createClass({
 	render: function() {
+		var min = this.props.min_relevance
 		var articleNodes = this.props.data.map(function (article, index) {
-			return <Article key={index} author={article.author} title={article.title} relevance={article.relevance}>{article.text}</Article>;
+			return <Article key={index} author={article.author} title={article.title} relevance={article.relevance} min_relevance={min} obj_id={article.objectId}>{article.text}</Article>;
 		});
 		return <div className="articleList">{articleNodes}</div>;
   	}
 });
 
+var LoadingIndicator = React.createClass({
+	render: function() {
+		return 	<div id="cover"></div>;
+  	}
+});
 
 React.renderComponent(
-	<ArticleBox url="/articles.json" pollInterval={2000} />,
+	<ArticleBox url="/articles.json" pollInterval={2000} min_relevance={0}/>,
 	document.getElementById('container')
 );
