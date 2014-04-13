@@ -2,14 +2,27 @@
 
 min_relevance = 0
 
+function log(log_text) {
+	var curr_time = new Date();
+	var curr_time = curr_time.getHours() + ":" + curr_time.getMinutes() + ":" + curr_time.getSeconds();		
+	log_entry = "<code>>> " + curr_time + ": " + log_text + "</code><br>"
+	document.getElementById("console").innerHTML = document.getElementById("console").innerHTML  + log_entry
+}
+	
+
 var Article = React.createClass({
 	getInitialState: function() {
 		return {prev_clicked:false, relevance:this.props.relevance, modified:false};
 	},
 
+	log: function(log_text) {
+		var curr_time = new Date();
+		var curr_time = curr_time.getHours() + ":" + curr_time.getMinutes() + ":" + curr_time.getSeconds();		
+		log_entry = "<code>>> " + curr_time + ": " + log_text + "</code><br>"
+		document.getElementById("console").innerHTML = document.getElementById("console").innerHTML  + log_entry
+	},
+	
 	componentWillMount: function() {
-		console.log("willmount")
-
 	},
 	
 	handleChange: function(event) {
@@ -29,21 +42,22 @@ var Article = React.createClass({
 		if (this.state.prev_clicked == false) {
 			this.setState({prev_clicked:true})
 			this.setState({prev_clicked:true})
-			//delete database[this.props.key]
-			console.log("Deleted article at index " + this.props.key)
-			
-			var db = Parse.Object.extend("articles")
-			//var query = new Parse.Query(db)
-			//query.equalTo("title", this.props.title)
-			//console.log(query)
-			//query.first({
-  			//	]success: function(object) {
-    		//	// Successfully retrieved the object.
-    		//	console.log(object)
-  			//},
-  			//error: function(error) {
-    		//	alert("Error: " + error.code + " " + error.message);
-  			//}
+			log("Deleted article <b>'" + this.props.title + "'</b> by <b>" + this.props.author + "</b>. Object id: " + this.props.obj_id)
+
+		var http = new XMLHttpRequest();
+		var del_url = "https://api.parse.com/1/classes/articles/" + this.props.obj_id;
+		http.open("DELETE", del_url, true);
+		http.setRequestHeader("X-Parse-Application-Id", "Uzki9qm4y0TtV5tON7nS3JMy0MVlVpCwWk8zmM3f");
+		http.setRequestHeader("X-Parse-REST-API-Key", "unKRN6nyC3V4ynbmLq3lc3qwu81qSSVHOZ770ced");
+		http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+		http.onreadystatechange = function() {
+			if(http.readyState == 4 && http.status == 200) {
+				console.log(http.responseText);
+				console.log(http)
+			}
+		}
+		http.send();
 		} else {
 			this.setState({prev_clicked:false})
 		}
@@ -89,8 +103,7 @@ var Article = React.createClass({
 			);
 		} else {
 			return (
-			<div>
-			</div>
+			<div></div>
 			);
 		}
 	}
@@ -98,27 +111,12 @@ var Article = React.createClass({
 
 
 var ArticleBox = React.createClass({
+
 	loadArticlesFromServer: function() {
-		//target = this
-		//var http_request = new XMLHttpRequest();
-		//http_request.open("GET", this.props.url, true);
-		//http_request.onreadystatechange = function() {
-		//	var done=4;
-		//	var ok = 200;
-		//	if (http_request.readyState === done && http_request.status === ok){
-		//		database = JSON.parse(http_request.responseText)
-		//		target.setState({data: JSON.parse(http_request.responseText)});
-		//		//console.log(target.state.data)
-		//		console.log(JSON.parse(http_request.responseText))
-		//	}
-		//};
-		//http_request.send();
-		console.log(this)
 		this.setState({data: json_list, recompute:false})
 	},
 	
 	recompute: function() {
-		//console.log(this.props.min_relevance)	
 		nextprops = {min_relevance: parseInt(document.getElementById("min_relevance").value)}
 		this.setProps(nextprops)
 	},
@@ -129,21 +127,16 @@ var ArticleBox = React.createClass({
 	
 	componentWillMount: function() {
 		this.loadArticlesFromServer();
-		//console.log("willmount")
 		setInterval(this.loadArticlesFromServer, this.props.pollInterval);
-		//document.getElementById("loading").innerHTML = "Loading"
 
 	},
 
 	componentDidMount: function() {
 		this.loadArticlesFromServer();
-		//console.log("didmount")
-
 
 	},
 		
 	render: function() {
-		//console.log(this.props)
 		return (
 			<div className="articleBox">
 				<h1>Local News Database</h1>
@@ -158,6 +151,7 @@ var ArticleBox = React.createClass({
 						<button className="recompute" onClick={this.recompute}>Recompute</button>
 					</div>
 				</div>
+				<Console />
 				<LoadingIndicator />
 
 				<ArticleList data={this.state.data} min_relevance={this.props.min_relevance} />
@@ -167,6 +161,7 @@ var ArticleBox = React.createClass({
 });
 
 var ArticleList = React.createClass({
+
 	render: function() {
 		var min = this.props.min_relevance
 		var articleNodes = this.props.data.map(function (article, index) {
@@ -179,6 +174,12 @@ var ArticleList = React.createClass({
 var LoadingIndicator = React.createClass({
 	render: function() {
 		return 	<div id="cover"></div>;
+  	}
+});
+
+var Console = React.createClass({
+	render: function() {
+		return 	<div id="console"><h2>Console</h2></div>
   	}
 });
 

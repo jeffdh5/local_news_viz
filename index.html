@@ -10,9 +10,7 @@
 	<link href="css/bootstrap.icon-large.min.css" rel="stylesheet">
   </head>
   <body>
-
     <div id="container">
-
     </div>
   	<script type="text/javascript">
 		json_list = []
@@ -21,9 +19,9 @@
 		var xhr = new XMLHttpRequest();
 
 		function reqListener () {
-		  var x = JSON.parse(this.responseText);
-		  for (var c=0; c<x["results"].length; c++) {
-		  	json_list.push(x["results"][c])
+		  var results = JSON.parse(this.responseText)["results"];
+		  for (var c=0; c<results.length; c++) {
+		  	json_list.push(results[c])
 		  }
 		}
 
@@ -36,6 +34,7 @@
 		xhr.send();
 
     </script>
+
 
     <script type="text/jsx" src="scripts/viz.js"></script>
   </body>

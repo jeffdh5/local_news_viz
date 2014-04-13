@@ -151,17 +151,19 @@ button.recompute:hover {
 	background-color:#eee;
 }
 
-#loading {
+.hide {
+	display:none;
+}
+
+#console {
 	width:1060px;
 	margin-left:40px;
 	border:1px solid #ccc;
 	padding-left:20px;
 	padding-right:20px;
 	padding-top:10px;
-}
-
-.hide {
-	display:none;
+	height:150px;
+	overflow:scroll;
 }
 
 #cover {
