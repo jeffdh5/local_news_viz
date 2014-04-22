@@ -196,9 +196,16 @@ var LoadingIndicator = React.createClass({
 var Console = React.createClass({
 	render: function() {
  		var logNodes = log_list.map(function (log, index) {
- 			return log
+ 			return (
+ 				<code>{log}<br></br>
+ 				</code>
+ 			)
   		});
-  		return <div id="console"><h2>Console</h2><code>{logNodes}<br></br></code></div>;
+  		return (
+  			<div id="console">
+  				<h2>Console</h2>
+  				{logNodes}<br></br></div>
+  		)
   	}
 });
 
