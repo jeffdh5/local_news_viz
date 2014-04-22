@@ -1,0 +1,24 @@
+{
+  "name": "local_news_viz",
+  "version": "0.0.0",
+  "description": "local_news_viz ============== Quick-start guide:",
+  "main": "server.js",
+  "dependencies": {
+    "express": "~3.5.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeffdh5/local_news_viz.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jeffdh5/local_news_viz/issues"
+  },
+  "homepage": "https://github.com/jeffdh5/local_news_viz"
+}

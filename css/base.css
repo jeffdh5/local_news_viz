@@ -21,6 +21,7 @@ h1 {
   font-weight: bold;
   margin: 0 0 15px;
   padding-left:40px;
+f
 
 }
 
@@ -85,6 +86,11 @@ div.article {
 	height:250px;
 	padding:20px;
 	overflow:scroll;
+	-webkit-transition: all 100ms ease;
+	-moz-transition: all 100ms ease;
+	-ms-transition: all 100ms ease;
+	-o-transition: all 100ms ease;
+	transition: all 100ms ease;
 }
 
 div.article-clicked {
@@ -94,10 +100,20 @@ div.article-clicked {
 	height:250px;
 	padding:20px;
 	overflow:scroll;
+	-webkit-transition: all 100ms ease;
+	-moz-transition: all 100ms ease;
+	-ms-transition: all 100ms ease;
+	-o-transition: all 100ms ease;
+	transition: all 100ms ease;
 }
 
 div.article:hover {
 	background-color:#eee;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
 }
 
 div.article-bottom {
@@ -131,6 +147,7 @@ input[type="text"] {
 	padding:5px;
 	outline:0px;
 	font-size:12px;
+	vertical-align: middle;
 }
 
 button.recompute {
@@ -144,15 +161,24 @@ button.recompute {
 	padding-bottom:6px;
 	margin-left:20px;
 	outline:0px;
-
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
 }
 
 button.recompute:hover {
 	background-color:#eee;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
 }
 
 .hide {
-	display:none;
+  display:none;
 }
 
 #console {
@@ -167,6 +193,56 @@ button.recompute:hover {
 }
 
 #cover {
-    background: url("/img/indicator.gif") no-repeat scroll center center #FFF;
+    background: url() no-repeat scroll center center #FFF;
     height: 250px;
+}
+
+.fa-save {
+	margin-left:30px;
+	vertical-align: middle;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
+}
+
+.fa-save:hover {
+	color:#ccc;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
+}
+
+
+.fa-trash-o {
+	margin-left:20px;
+	vertical-align: middle;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
+}
+
+.fa-trash-o:hover {
+	color:#ccc;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
+}
+
+#loader {
+	position:absolute;
+	margin-left:520px;
+	margin-top:75px;
+	-webkit-transition: all 500ms ease;
+	-moz-transition: all 500ms ease;
+	-ms-transition: all 500ms ease;
+	-o-transition: all 500ms ease;
+	transition: all 500ms ease;
 }
