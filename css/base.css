@@ -246,3 +246,18 @@ button.recompute:hover {
 	-o-transition: all 500ms ease;
 	transition: all 500ms ease;
 }
+
+#container {
+    overflow: hidden;
+    display: inline-block; /* Necessary to trigger "hasLayout" in IE */
+    display: block; /* Sets element back to block */
+}
+
+#footer {
+	height: 100px;
+	border:1px solid #ccc;
+}
+
+#divider {
+	height:100px;
+}

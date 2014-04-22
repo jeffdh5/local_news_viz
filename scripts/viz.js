@@ -31,6 +31,10 @@ xhr.setRequestHeader("Content-Type", "application/json");
 
 xhr.send();
 
+
+
+
+
 var Article = React.createClass({
 	getInitialState: function() {
 		return {prev_clicked:false, relevance:this.props.relevance, modified:false};
@@ -43,6 +47,7 @@ var Article = React.createClass({
 		if (!isNaN(event.target.value)) {
 			this.setState({relevance: event.target.value});
 			this.state.modified = true
+			console.log("at handlechange")
 		}
   	},
 
@@ -51,9 +56,28 @@ var Article = React.createClass({
 
 	},
 
+	forceArticleboxRefresh: function() {
+		nextProps = {trigger: true}
+		this.props.parentthis.setProps(nextProps)
+	},
+
+	saveChange: function() {
+		log("Saved change at '" + this.props.title + "' by " + this.props.author + ". Object id: " + this.props.obj_id)
+		var http = new XMLHttpRequest();
+		var save_url = "https://api.parse.com/1/classes/articles/" + this.props.obj_id;
+		http.open("PUT", save_url, true);
+		http.setRequestHeader("X-Parse-Application-Id", "Uzki9qm4y0TtV5tON7nS3JMy0MVlVpCwWk8zmM3f");
+		http.setRequestHeader("X-Parse-REST-API-Key", "unKRN6nyC3V4ynbmLq3lc3qwu81qSSVHOZ770ced");
+		http.setRequestHeader("Content-type", "application/json");
+		score_data = []
+		score_data.push(this.state.relevance)
+		data = JSON.stringify({"relevance": score_data})
+		http.send(data);
+	},
+
 	deleteArticle: function() {
 
-		log("Deleted article <b>'" + this.props.title + "'</b> by <b>" + this.props.author + "</b>. Object id: " + this.props.obj_id)
+		log("Deleted article '" + this.props.title + "' by " + this.props.author + ". Object id: " + this.props.obj_id)
 
 		var http = new XMLHttpRequest();
 		var del_url = "https://api.parse.com/1/classes/articles/" + this.props.obj_id;
@@ -61,14 +85,12 @@ var Article = React.createClass({
 		http.setRequestHeader("X-Parse-Application-Id", "Uzki9qm4y0TtV5tON7nS3JMy0MVlVpCwWk8zmM3f");
 		http.setRequestHeader("X-Parse-REST-API-Key", "unKRN6nyC3V4ynbmLq3lc3qwu81qSSVHOZ770ced");
 		http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
 		http.send();
 		delete json_list[this.props.key]
-		
-
+		this.forceArticleboxRefresh();
 	},
 	
-	selectArticle: function() {
+	selectArticle: function() {		
 		if (this.state.prev_clicked == false) {
 			this.setState({prev_clicked:true})
 			this.setState({prev_clicked:true})			
@@ -100,7 +122,7 @@ var Article = React.createClass({
 					</div>
 					<div className="article-bottom">
 						<label>Relevance: <input type="text" value={relevance} onChange={this.handleChange} /></label>
-						<i className="fa fa-save fa-2x"></i>
+						<i className="fa fa-save fa-2x" onClick={this.saveChange}></i>
 						<i className="fa fa-trash-o fa-2x" onClick={this.deleteArticle}></i>
 
 					</div>
@@ -128,7 +150,6 @@ var ArticleBox = React.createClass({
 			nextprops = {min_relevance: min_relevance}
 			this.setProps(nextprops)
 		}
-
 	},
 	
 	getInitialState: function() {
@@ -138,17 +159,14 @@ var ArticleBox = React.createClass({
 	componentWillMount: function() {
 		this.loadArticlesFromServer();
 		setInterval(this.loadArticlesFromServer, this.props.pollInterval);
-
 	},
 
 	componentWillReceiveProps: function(nextProps) {
 		console.log(nextProps)
-
 	},
 
 	componentDidMount: function() {
 		this.loadArticlesFromServer();
-
 	},
 		
 	render: function() {
@@ -169,7 +187,7 @@ var ArticleBox = React.createClass({
 				<Console />
 				<LoadingIndicator />
 
-				<ArticleList data={this.state.data} min_relevance={this.props.min_relevance} />
+				<ArticleList data={this.state.data} min_relevance={this.props.min_relevance} parent_this = {this} />
       		</div>
     	);
   	}
@@ -179,9 +197,10 @@ var ArticleList = React.createClass({
 
 	render: function() {
 		var min = this.props.min_relevance
-		var parentthis = this
+		var parentthis = this.props.parent_this
+		//console.log(parentthis)
 		var articleNodes = this.props.data.map(function (article, index) {
-			return <Article key={index} author={article.author} title={article.title} relevance={article.relevance} min_relevance={min} parentthis={parentthis} obj_id={article.objectId}>{article.text}</Article>;
+			return <Article parentthis = {parentthis} key={index} author={article.author} title={article.title} relevance={article.relevance} min_relevance={min} obj_id={article.objectId}>{article.text}</Article>;
 		});
 		return <div className="articleList">{articleNodes}</div>;
   	}
@@ -204,15 +223,14 @@ var Console = React.createClass({
   		return (
   			<div id="console">
   				<h2>Console</h2>
-  				{logNodes}<br></br></div>
+  				<code> >>> Console loaded.<br></br></code>
+  				{logNodes}<br></br>
+  			</div>
   		)
   	}
 });
 
-
-
-
 React.renderComponent(
-	<ArticleBox url="/articles.json" pollInterval={2000} min_relevance={0}/>,
+	<ArticleBox url="/articles.json" pollInterval={2000} min_relevance={0} trigger={false}/>,
 	document.getElementById('container')
 );
