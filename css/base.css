@@ -192,7 +192,7 @@ button.recompute:hover {
 	overflow:scroll;
 }
 
-#cover {
+#spinner_cover {
     background: url() no-repeat scroll center center #FFF;
     height: 250px;
 }
@@ -236,7 +236,7 @@ button.recompute:hover {
 	transition: all 500ms ease;
 }
 
-#loader {
+#spinner {
 	position:absolute;
 	margin-left:520px;
 	margin-top:75px;
@@ -251,11 +251,14 @@ button.recompute:hover {
     overflow: hidden;
     display: inline-block; /* Necessary to trigger "hasLayout" in IE */
     display: block; /* Sets element back to block */
+    border-bottom:1px solid #ccc;
 }
 
 #footer {
-	height: 100px;
-	border:1px solid #ccc;
+	height: 12px;
+	width:90%;
+	font-size:13px;
+	padding-left:50px;
 }
 
 #divider {
