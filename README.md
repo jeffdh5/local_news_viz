@@ -5,7 +5,7 @@ The Local News Database Visualization is a front-end interface for displaying ar
 along with the relevance score of a specific query term. The main use-case for this interface
 is testing various article geo-coding algorithms for accuracy.
 
-Project dependencies:
+Project dependencies:\n
 1) Express
 
 Installation Instructions:
