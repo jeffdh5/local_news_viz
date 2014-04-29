@@ -3,9 +3,9 @@
 
 
 //Parse REST API authentication - Modify these to add in API authentification keys
-parse_app_id = "Uzki9qm4y0TtV5tON7nS3JMy0MVlVpCwWk8zmM3f"
-parse_rest_api_key = "unKRN6nyC3V4ynbmLq3lc3qwu81qSSVHOZ770ced"
-parse_database_classname = "articles"
+parse_app_id = "<your_parse_app_id>"
+parse_rest_api_key = "<your_parse_rest_api_key>"
+parse_database_classname = "articles" //default, change accordingly
 url = "https://api.parse.com/1/classes/" + parse_database_classname
 
 
