@@ -5,14 +5,14 @@ The Local News Database Visualization is a front-end interface for displaying ar
 along with the relevance score of a specific query term. The main use-case for this interface
 is testing various article geo-coding algorithms for accuracy.
 
-Project dependencies:\n
-1) Express
+Project dependencies:
+1. Express
 
 Installation Instructions:
-1) Install node.js. A guide is included in the notes section of this Readme.
-2) cd into project directory.
-3) Type in "npm install" in console.
-4) If you have not already set up a database on Parse.com:
+1. Install node.js. A guide is included in the notes section of this Readme.
+2. cd into project directory.
+3. Type in "npm install" in console.
+4. If you have not already set up a database on Parse.com:
 	-Create an application on Parse, and create a new class called "articles". You can modify 
 	this later by modifying parse_database_name in settings.js. 
 	
@@ -43,15 +43,15 @@ Installation Instructions:
 	
 	-An example articles.JSON has been included for you.
 	
-5) If you have already set up a database on Parse.com:
+5. If you have already set up a database on Parse.com:
 	-Modify /scripts/settings.js accordingly. Input your Parse Application ID and
 	REST API Key. 
 	-Modify parse_database_classname to be exactly the same as the classname defined in
 	your Parse application.
 	-Modify database_name and query_term to be consistent with your particular database.
 
-6) Type in "node server.js" in console.
-7) In your browser, navigate to localhost:3000.
+6. Type in "node server.js" in console.
+7. In your browser, navigate to localhost:3000.
 
 Module Organization
 =========================
